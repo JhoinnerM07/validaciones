@@ -40,19 +40,19 @@ BEGIN
 
   -- Resultados
   IF hay_duplicados THEN
-    RAISE NOTICE '⚠ Existen geometrías duplicadas en %I.%I.', esquema, tabla;
+    RAISE NOTICE '❌ Existen geometrías duplicadas en %I.%I.', esquema, tabla;
   ELSE
     RAISE NOTICE '✅ No se encontraron geometrías duplicadas.';
   END IF;
 
   IF hay_nulas THEN
-    RAISE NOTICE '⚠ Existen geometrías nulas en %I.%I.', esquema, tabla;
+    RAISE NOTICE '❌ Existen geometrías nulas en %I.%I.', esquema, tabla;
   ELSE
     RAISE NOTICE '✅ No se encontraron geometrías nulas.';
   END IF;
 
   IF hay_invalidas THEN
-    RAISE NOTICE '⚠ Existen geometrías inválidas en %I.%I.', esquema, tabla;
+    RAISE NOTICE '❌ Existen geometrías inválidas en %I.%I.', esquema, tabla;
   ELSE
     RAISE NOTICE '✅ No se encontraron geometrías inválidas.';
   END IF;
