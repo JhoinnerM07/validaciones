@@ -1,7 +1,7 @@
 DO $$
 DECLARE
   esquema TEXT := '{{esquema}}';
-  tabla TEXT := '{{capa}}';
+  tabla TEXT := '{{tabla}}';
   hay_duplicados BOOLEAN := FALSE;
   hay_nulas BOOLEAN := FALSE;
   hay_invalidas BOOLEAN := FALSE;
