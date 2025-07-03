@@ -2,9 +2,9 @@ DO $$
 DECLARE
   esquema TEXT := '{{esquema}}';
   tabla TEXT := '{{tabla}}';
-  hay_duplicados BOOLEAN := FALSE;
-  hay_nulas BOOLEAN := FALSE;
-  hay_invalidas BOOLEAN := FALSE;
+  hay_duplicados BOOLEAN;
+  hay_nulas BOOLEAN;
+  hay_invalidas BOOLEAN;
   sql TEXT;
 BEGIN
   -- Verificar geometrías duplicadas
@@ -18,6 +18,12 @@ BEGIN
   $f$, esquema, tabla, esquema, tabla);
   EXECUTE sql INTO hay_duplicados;
 
+  IF hay_duplicados THEN
+    RAISE NOTICE '❌ Existen geometrías duplicadas en %.%', esquema, tabla;
+  ELSE
+    RAISE NOTICE '✅ No se encontraron geometrías duplicadas en %.%.', esquema, tabla;
+  END IF;
+
   -- Verificar geometrías nulas
   sql := format($f$
     SELECT EXISTS (
@@ -27,6 +33,12 @@ BEGIN
     )
   $f$, esquema, tabla);
   EXECUTE sql INTO hay_nulas;
+
+  IF hay_nulas THEN
+    RAISE NOTICE '❌ Existen geometrías nulas en %.%.', esquema, tabla;
+  ELSE
+    RAISE NOTICE '✅ No se encontraron geometrías nulas en %.%.', esquema, tabla;
+  END IF;
 
   -- Verificar geometrías inválidas
   sql := format($f$
@@ -38,22 +50,9 @@ BEGIN
   $f$, esquema, tabla);
   EXECUTE sql INTO hay_invalidas;
 
-  -- Resultados
-  IF hay_duplicados THEN
-    RAISE NOTICE '❌ Existen geometrías duplicadas en %I.%I.', esquema, tabla;
-  ELSE
-    RAISE NOTICE '✅ No se encontraron geometrías duplicadas.';
-  END IF;
-
-  IF hay_nulas THEN
-    RAISE NOTICE '❌ Existen geometrías nulas en %I.%I.', esquema, tabla;
-  ELSE
-    RAISE NOTICE '✅ No se encontraron geometrías nulas.';
-  END IF;
-
   IF hay_invalidas THEN
-    RAISE NOTICE '❌ Existen geometrías inválidas en %I.%I.', esquema, tabla;
+    RAISE NOTICE '❌ Existen geometrías inválidas en %.%.', esquema, tabla;
   ELSE
-    RAISE NOTICE '✅ No se encontraron geometrías inválidas.';
+    RAISE NOTICE '✅ No se encontraron geometrías inválidas en %.%.', esquema, tabla;
   END IF;
 END$$;
