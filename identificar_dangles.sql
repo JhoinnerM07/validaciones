@@ -190,3 +190,12 @@ create table "{esquema}".dangle_verdadero as
 select * from dangles_verdaderos;
 
 create index idx_geom_dangle_verdadero on "{esquema}".dangle_verdadero using gist (geom);
+
+------------------------------------------------------------------------
+---------------Borrar capas temporales----------------------------------
+------------------------------------------------------------------------
+
+drop table dangles_verdaderos;
+drop table mavvial_dangles;
+drop table ptos_dangles;
+drop table ptos_extremos;
