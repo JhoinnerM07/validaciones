@@ -176,20 +176,20 @@ END$$;
 -- Alojar dangles en el esquema-----------------------------------------
 ------------------------------------------------------------------------
 
-drop table if exists "{esquema}".dangles_totales;
-create table "{esquema}".dangles_totales as
+drop table if exists "{esquema}".dangles_totales_{capa};
+create table "{esquema}".dangles_totales_{capa} as
 select * from ptos_dangles;
 
-create index idx_geom_dangles on "{esquema}".dangles_totales using gist (geom);
+create index idx_geom_dangles on "{esquema}".dangles_totales_{capa} using gist (geom);
 
 ------------------------------------------------------------------------
 --------Crear capa de dangles verdaderos--------------------------------
 ------------------------------------------------------------------------
-drop table if exists "{esquema}".dangle_verdadero;
-create table "{esquema}".dangle_verdadero as
+drop table if exists "{esquema}".dangle_verdadero_{capa};
+create table "{esquema}".dangle_verdadero_{capa} as
 select * from dangles_verdaderos;
 
-create index idx_geom_dangle_verdadero on "{esquema}".dangle_verdadero using gist (geom);
+create index idx_geom_dangle_verdadero on "{esquema}".dangle_verdadero_{capa} using gist (geom);
 
 ------------------------------------------------------------------------
 ---------------Borrar capas temporales----------------------------------
